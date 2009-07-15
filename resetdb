@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dropdb legion;
+createdb legion;
+psql legion -f db/theschwartz.sql
