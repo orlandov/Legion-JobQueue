@@ -1,5 +1,10 @@
-#!/bin/bash
+#!/usr/bin/perl
 
-dropdb legion;
-createdb legion;
-psql legion -f db/theschwartz.sql
+use strict;
+use warnings;
+
+my $dbname = $ENV{DBNAME} or die "Must specify DBNAME";
+
+system("dropdb $dbname");
+system("createdb $dbname");
+system("psql $dbname -f db/theschwartz.sql");

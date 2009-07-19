@@ -1,11 +1,15 @@
 #!/usr/bin/perl
-
+use strict;
+use warnings;
+use lib 'lib';
 use DBI;
 use TheSchwartz::Moosified;
 use Legion::Worker::FrameMaker;
 use Legion::Worker::Renderer;
 
-my $dbh = DBI->connect('dbi:Pg:dbname=legion', '', '');
+my $dbname = $ENV{DBNAME} or die "Must specify DBNAME";
+
+my $dbh = DBI->connect("dbi:Pg:dbname=$dbname", '', '');
 my $client = TheSchwartz::Moosified->new(
     databases => [ $dbh ],
     scoreboard => 'log',
@@ -16,15 +20,14 @@ $client->can_do('Legion::Worker::FrameMaker');
 $client->can_do('Legion::Worker::Renderer');
 
 $client->prioritize(1);
-$client->insert('Legion::Worker::FrameMaker',
-    {
-        session_name => "test_session",
-        filename => 'foo.blend',
-        frame_first => 1,
-        frame_last => 250
-    });
-$client->work_until_done;
+# $client->insert('Legion::Worker::FrameMaker',
+#     {
+#         session_name => "test_session",
+#         filename => 'foo.blend',
+#         frame_first => 1,
+#         frame_last => 250
+#     });
+$client->work;
 
-print "foo => ". $__MAIN__::foo;
 warn "Done?";
 0;
