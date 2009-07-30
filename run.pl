@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use lib 'lib';
+use lib '../lib/Legion-Web/lib';
 use DBI;
 use TheSchwartz::Moosified;
 use Legion::Worker::FrameMaker;
